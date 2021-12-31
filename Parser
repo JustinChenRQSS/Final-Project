@@ -1,0 +1,23 @@
+from docstring_extractor import get_docstrings
+
+with open("queue.py") as file:
+    lines = 0
+    m_strings = get_docstrings(file)
+    print(m_strings)
+    # print module docstring
+    print("%s, %s:\n%s\n" % (m_strings['type'], m_strings['name'], m_strings['docstring_text']))
+    if m_strings['docstring_text']:
+        lines += m_strings['docstring_text'].count("\n") + 1
+    # for each class in the module
+    for c_string in m_strings['content']:
+        # print class docstring
+        print("%s, %s:\n%s\n" % (c_string['type'], c_string['name'], c_string['docstring_text']))
+        if c_string['docstring_text']:
+            lines += c_string['docstring_text'].count("\n") + 1
+        # for each function in the class
+        for f_string in c_string['content']:
+            # print function docstring
+            print("%s, %s:\n%s\n" % (f_string['type'], f_string['name'], f_string['docstring_text']))
+            if f_string['docstring_text']:
+                lines += f_string['docstring_text'].count("\n") + 1
+    print("number of docstring lines: %d" % lines)
